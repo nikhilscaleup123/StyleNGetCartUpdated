@@ -56,24 +56,36 @@ if (!customElements.get('media-gallery')) {
       }
 
       onSlideChanged(event) {
+        const slide = event.detail.currentElement;
+        if (!slide) return;
+
+        const activeSlide = this.elements.viewer.querySelector('[data-media-id].is-active');
+        if (activeSlide && slide.dataset.mediaId !== activeSlide.dataset.mediaId) return;
+
         const thumbnail = this.elements.thumbnails.querySelector(
-          `[data-target="${event.detail.currentElement.dataset.mediaId}"]`
+          `[data-target="${slide.dataset.mediaId}"]`
         );
         this.setActiveThumbnail(thumbnail);
         this.syncThumbnailsWidth();
       }
 
-      setActiveMedia(mediaId) {
-        const activeMedia =
-          this.elements.viewer.querySelector(`[data-media-id="${mediaId}"]`) ||
-          this.elements.viewer.querySelector('[data-media-id]');
-        if (!activeMedia) {
-          return;
-        }
+      setActiveMedia(mediaId, prepend) {
+        const activeMedia = this.elements.viewer.querySelector(`[data-media-id="${mediaId}"]`);
+        if (!activeMedia) return;
+
         this.elements.viewer.querySelectorAll('[data-media-id]').forEach((element) => {
           element.classList.remove('is-active');
         });
-        activeMedia?.classList?.add('is-active');
+        activeMedia.classList.add('is-active');
+
+        if (prepend) {
+          activeMedia.parentElement.prepend(activeMedia);
+
+          if (this.elements.viewer.resetPages) this.elements.viewer.resetPages();
+          if (this.elements.thumbnails && this.elements.thumbnails.resetPages) {
+            this.elements.thumbnails.resetPages();
+          }
+        }
 
         this.preventStickyHeader();
         window.setTimeout(() => {
@@ -91,7 +103,9 @@ if (!customElements.get('media-gallery')) {
         if (!this.elements.thumbnails) return;
         const activeThumbnail = this.elements.thumbnails.querySelector(`[data-target="${mediaId}"]`);
         this.setActiveThumbnail(activeThumbnail);
-        this.announceLiveRegion(activeMedia, activeThumbnail.dataset.mediaPosition);
+        if (activeThumbnail) {
+          this.announceLiveRegion(activeMedia, activeThumbnail.dataset.mediaPosition);
+        }
         requestAnimationFrame(() => this.syncThumbnailsWidth());
       }
 

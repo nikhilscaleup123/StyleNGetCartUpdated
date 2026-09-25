@@ -1157,7 +1157,10 @@ class VariantSelects extends HTMLElement {
     if (this.currentVariant.featured_media) {
       document
         .querySelector(`[id^="MediaGallery-${this.dataset.section}"]`)
-        ?.setActiveMedia?.(`${this.dataset.section}-${this.currentVariant.featured_media.id}`);
+        ?.setActiveMedia?.(
+          `${this.dataset.section}-${this.currentVariant.featured_media.id}`,
+          true
+        );
     }
 
     // update media modal
