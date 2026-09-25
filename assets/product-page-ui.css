@@ -394,7 +394,7 @@
 }
 
 .product__info-container .product-form__input--swatch .swatch-input__input + .swatch-input__label {
-  --swatch-input--size: 3.2rem;
+  --swatch-input--size: 4.8rem;
   margin: 0.4rem 1rem 0.4rem 0;
   outline-offset: 0.25rem;
   transition: outline-color 0.2s ease, outline-width 0.2s ease, transform 0.15s ease;
