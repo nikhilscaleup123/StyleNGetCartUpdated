@@ -69,11 +69,13 @@
         </div>
       {%- endif -%}
 
-      {% render 'cart-drawer-recommendations' %}
-
-      <div class="cart-drawer__main">
       <div class="drawer__header">
-        <h2 class="drawer__heading">{{ 'sections.cart.title' | t }}</h2>
+        <h2 class="drawer__heading">
+          {{ 'sections.cart.title' | t }}
+          {%- if cart != empty -%}
+            <span class="drawer__heading-count">{{ 'sections.header.cart_count' | t: count: cart.item_count }}</span>
+          {%- endif -%}
+        </h2>
         <button
           class="drawer__close"
           type="button"
@@ -84,6 +86,8 @@
         </button>
       </div>
       {% render 'shipping-progress-bar' %}
+      <div class="cart-drawer__scroll">
+      <div class="cart-drawer__main">
       <cart-drawer-items
         {% if cart == empty %}
           class=" is-empty"
@@ -462,6 +466,8 @@
           <div id="CartDrawer-CartErrors" role="alert"></div>
         </form>
       </cart-drawer-items>
+      </div>
+      {% render 'cart-drawer-recommendations' %}
       </div>
       <div class="drawer__footer">
         {%- if settings.show_cart_note -%}

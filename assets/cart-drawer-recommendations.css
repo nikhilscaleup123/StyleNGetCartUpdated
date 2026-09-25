@@ -291,15 +291,13 @@
 /* Mobile: recommendations between cart items and sticky checkout */
 @media screen and (max-width: 989px) {
   .cart-drawer-recommendations:not([hidden]) {
-    order: 2;
     border-right: 0;
     border-top: 0.1rem solid #ececec;
-    max-height: min(28vh, 22rem);
+    max-height: none;
     min-height: 0;
-    padding: 1.6rem 0;
+    padding: 1.6rem 0 0.8rem;
     background: rgba(var(--color-foreground), 0.02);
-    overflow-x: hidden;
-    overflow-y: auto;
+    overflow: visible;
   }
 
   .cart-drawer-recs__header {
@@ -338,7 +336,8 @@
     padding: 1.2rem;
   }
 
-  .cart-drawer-rec-card:hover {
+  .cart-drawer-rec-card:hover,
+  .cart-drawer-rec-card:hover .cart-drawer-rec-card__image {
     transform: none;
     box-shadow: 0 0.2rem 0.8rem rgba(0, 0, 0, 0.04);
   }
